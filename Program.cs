@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-﻿// Welcome the user to the program
 using Mission_4;
 
 Console.WriteLine("Welcome to the Tic-Tac-Toe game!");
