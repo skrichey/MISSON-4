@@ -1,99 +1,70 @@
-using Mission_4;
+using System;
 
-Console.WriteLine("Welcome to the Tic-Tac-Toe game!");
-
-// Create game board array to store players' choices
-char[] Driver = new char[9] { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
-int numTurns = 0;
-int userInput = 0;
-
-//Ask each player in turn for their choice
-
-while (numTurns < 9)
+namespace Mission_4
 {
-    Board.PrintBoard(Driver);
-    bool isValidInput = false;
-
-    // Determine the current player
-    if (numTurns % 2 == 0)
+    class Program
     {
-        Console.WriteLine("Player 1, please enter a number between 1 and 9 to place your X:");
-    }
-    else
-    {
-        Console.WriteLine("Player 2, please enter a number between 1 and 9 to place your O:");
-    }
-
-    // Input validation loop
-    while (!isValidInput)
-    {
-        string input = Console.ReadLine();
-
-        // Check if the input is a valid integer
-        if (int.TryParse(input, out userInput))
+        static void Main(string[] args)
         {
-            // Check if the input is within range
-            if (userInput >= 1 && userInput <= 9)
+            Console.WriteLine("Welcome to the Tic-Tac-Toe game!");
+
+            // Create the game board array
+            string[] grid = new string[9] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            BoardPrinter boardPrinter = new BoardPrinter();
+
+            int numTurns = 0;
+            string currentPlayer;
+
+            // Main game loop
+            while (numTurns < 9)
             {
-                // Check if the position on the board is already occupied
-                if (Driver[userInput - 1] != 'X' && Driver[userInput - 1] != 'O')
+                boardPrinter.PrintBoard(grid);
+                currentPlayer = (numTurns % 2 == 0) ? "X" : "O";
+                Console.WriteLine($"Player {(currentPlayer == "X" ? "1" : "2")}, it's your turn. Enter a number (1-9):");
+
+                bool isValidInput = false;
+                int userInput = 0;
+
+                // Input validation loop
+                while (!isValidInput)
                 {
-                    isValidInput = true; // Input is valid
+                    string input = Console.ReadLine();
+
+                    // Check if the input is valid
+                    if (int.TryParse(input, out userInput) && userInput >= 1 && userInput <= 9)
+                    {
+                        if (grid[userInput - 1] != "X" && grid[userInput - 1] != "O")
+                        {
+                            isValidInput = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("That spot is already taken. Choose another number:");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Enter a number between 1 and 9:");
+                    }
                 }
-                else
+
+                // Update the grid with the current player's move
+                grid[userInput - 1] = currentPlayer;
+                numTurns++;
+
+                // Check for a winner
+                string result = boardPrinter.GameWinner(grid);
+                if (result != "No winner yet.")
                 {
-                    Console.WriteLine("That spot is already taken. Please choose another number:");
+                    boardPrinter.PrintBoard(grid);
+                    Console.WriteLine(result);
+                    return; // End the game
                 }
             }
-            else
-            {
-                Console.WriteLine("Number is out of range. Please enter a number between 1 and 9:");
-            }
+
+            // If the loop ends without a winner, declare a draw
+            boardPrinter.PrintBoard(grid);
+            Console.WriteLine("It's a draw!");
         }
-        else
-        {
-            Console.WriteLine("Invalid input. Please enter a number (not a letter or special character):");
-        }
-        numTurns++;
-    }
-
-    // Update the game board
-    if (numTurns % 2 == 0)
-    {
-        Driver[userInput - 1] = 'X';
-    }
-    else
-    {
-        Driver[userInput - 1] = 'O';
-    }
-    if (CheckVictory) = true
-    {
-        Console.WriteLine("Player")
     }
 }
-
-
-//Print the board by calling the method in the supporting class
-Board.PrintBoard(Driver);
-
-//Check for a winner by calling the method in the supporting class, and notify the players
-//when a win has occurred and which player won the game
-
-if (Board.CheckVictory(Driver))
-{
-    if (numTurns % 2 == 0)
-    {
-        Console.WriteLine("Player 1 wins!");
-    }
-    else
-    {
-        Console.WriteLine("Player 2 wins!");
-    }
-}
-else
-{
-    Console.WriteLine("It's a tie!");
-}
-
-Console.WriteLine(GameWinner);

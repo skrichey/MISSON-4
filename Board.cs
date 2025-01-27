@@ -1,36 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mission_4
 {
     internal class BoardPrinter
     {
         // Method to print the Tic-Tac-Toe board
-        public void PrintBoard(char[] board)
+        public void PrintBoard(string[] board)
         {
             for (int i = 0; i < board.Length; i++)
             {
-                // Print the current cell value or a placeholder for empty cells
-                char cell = board[i] == '\0' ? ' ' : board[i];
-                Console.Write($" {cell} ");
-
-                // Add a vertical separator for all but the last column
+                Console.Write($" {board[i]} ");
                 if ((i + 1) % 3 != 0)
                 {
                     Console.Write("|");
                 }
                 else if (i < 8)
                 {
-                    // Add a horizontal separator for all but the last row
                     Console.WriteLine("\n---+---+---");
                 }
             }
-            Console.WriteLine(); // Move to the next line after the grid
+            Console.WriteLine();
         }
+
+        // Method to check for a winner
         public string CheckVictory(string[] grid)
         {
             // Check rows
@@ -50,27 +43,22 @@ namespace Mission_4
             // No winner
             return null;
         }
+
+        // Method to determine the game result
         public string GameWinner(string[] grid)
         {
-            // Check for a winner
             string winner = CheckVictory(grid);
             if (winner != null)
             {
-                // Return the winner as Player 1 (X) or Player 2 (O)
                 return winner == "X" ? "Player 1 wins!" : "Player 2 wins!";
             }
 
-            // Check for a draw (no empty cells remaining)
             if (!grid.Any(cell => cell != "X" && cell != "O"))
             {
                 return "It's a draw!";
             }
 
-            // Game is still ongoing
             return "No winner yet.";
         }
-
     }
-
 }
-
